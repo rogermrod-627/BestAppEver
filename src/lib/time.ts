@@ -53,3 +53,14 @@ export function addDays(d: Date, n: number): Date {
 export const dateFor = (week: Date, day: Day) => addDays(week, day);
 
 export const fmtDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+/** Stable storage key for a week: its Monday as local YYYY-MM-DD. */
+export const weekKey = (d: Date) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+export function parseWeekKey(key: string): Date {
+  const [y, m, d] = key.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+
+export const fmtWeek = (week: Date) => `${fmtDate(week)} – ${fmtDate(addDays(week, 6))}`;

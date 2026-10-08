@@ -12,7 +12,7 @@ npm run build      # typecheck + production build
 npm run simulate              # run the generator headless on the demo data
 ```
 
-Ships with a demo restaurant (**Harbor & Vine**, 38 FOH/BOH employees) and saves edits to
+Ships with a demo restaurant (**Harbor & Vine**, 38 FOH/BOH employees) and three prior weeks of history, and saves edits to
 `localStorage`. Use the ↺ button in the toolbar to restore the demo.
 
 ## Features
@@ -39,6 +39,15 @@ Ships with a demo restaurant (**Harbor & Vine**, 38 FOH/BOH employees) and saves
 - **Soft warnings** — overtime (>40h), over target, double shifts, clopens (<10h rest).
 - **Dashboard** — scheduled vs target hours, labor cost (by role), unassigned counter,
   warnings breakdown, on-target staff.
+- **Per-week schedules** — each week has its own schedule. An empty week offers *Generate* or
+  *Copy previous week*. Removing an employee reopens their shifts in this and later weeks only;
+  past weeks keep their history.
+- **Weekly reports** (*Reports* tab) — labor cost (hours past 40 at 1.5×), hours, coverage,
+  overtime, avg cost/hour and on-target staff, each compared with the prior week; cost-by-week
+  trend (click a bar to jump to that week) and cost-by-day charts; breakdown by position;
+  exceptions (open shifts with reasons, overrides, doubles, clopens); a sortable per-employee
+  hours table flagging who is under target. *Export CSV* and *Print* never include
+  confidential notes.
 - **Shifts & Staffing drawer** — edit shift templates and required headcount per role per day.
 
 ## Stack

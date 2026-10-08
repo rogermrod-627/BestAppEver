@@ -21,3 +21,15 @@ console.log('hard violations', violations);
 const w = computeWarnings(SEED_EMPLOYEES, shifts);
 console.log('warnings', w.length, w.map((x) => x.kind).join(','));
 for (const e of SEED_EMPLOYEES) console.log(e.name.padEnd(18), String(weeklyHours(e.id, shifts)).padStart(5), '/', e.targetHours);
+
+// Weekly report roll-up must reconcile: per-day and per-role costs sum to the total.
+import { buildWeekReport } from '../src/lib/report';
+const r = buildWeekReport('demo', shifts, SEED_EMPLOYEES);
+const sum = (xs: number[]) => xs.reduce((a, b) => a + b, 0);
+const ok = (a: number, b: number) => Math.abs(a - b) < 0.01;
+console.log('report', { hours: r.totals.hours, cost: r.totals.cost.toFixed(2), ot: r.totals.overtimeHours, open: r.totals.open });
+if (!ok(sum(r.days.map((d) => d.cost)), r.totals.cost) || !ok(sum(r.roles.map((x) => x.cost)), r.totals.cost) || !ok(sum(r.days.map((d) => d.hours)), r.totals.hours)) {
+  console.error('report totals do not reconcile');
+  process.exit(1);
+}
+console.log('report totals reconcile');
